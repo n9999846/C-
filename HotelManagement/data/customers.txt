@@ -1,0 +1,2 @@
+# customers.txt
+# 格式: ID|姓名|电话|身份证|类型|累计消费|VIP等级|VIP日期
