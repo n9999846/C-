@@ -29,6 +29,20 @@ set(SOURCES
 
 add_executable(HotelManagement ${SOURCES})
 
-# TODO: 如果需要Qt GUI，在这里添加Qt相关配置
-# find_package(Qt5 REQUIRED COMPONENTS Widgets Charts)
-# target_link_libraries(HotelManagement Qt5::Widgets Qt5::Charts)
+# 测试可执行文件
+set(TEST_SOURCES
+    src/test_main.cpp
+    src/Room.cpp
+    src/StandardRoom.cpp
+    src/DeluxeRoom.cpp
+    src/SuiteRoom.cpp
+    src/RoomManager.cpp
+    src/Customer.cpp
+    src/VIPCustomer.cpp
+    src/Booking.cpp
+    src/BookingException.cpp
+    src/BookingManager.cpp
+    src/Date.cpp
+)
+
+add_executable(TestHotel ${TEST_SOURCES})
