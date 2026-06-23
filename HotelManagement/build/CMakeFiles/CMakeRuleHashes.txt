@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+1ddd1093aac78d90f49fab1f5aceb292 CMakeFiles/HotelManagement_autogen
+1ddd1093aac78d90f49fab1f5aceb292 CMakeFiles/TestHotel_autogen
+d4387caab1bb21a57a6059b8fb83fedd HotelManagement_autogen/timestamp
+caa97600e3066dc8a9cbacb7efaa957a TestHotel_autogen/timestamp

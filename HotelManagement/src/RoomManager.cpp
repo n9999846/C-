@@ -242,8 +242,8 @@ void RoomManager::loadRooms(const string& filename) {
 
     string line;
     while (getline(ifs, line)) {
-        if (line.empty()) continue;
-        
+        if (line.empty() || line[0] == '#') continue;
+
         stringstream ss(line);
         string token;
         vector<string> tokens;

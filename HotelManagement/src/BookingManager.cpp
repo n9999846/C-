@@ -315,6 +315,7 @@ void BookingManager::loadCustomers(const string& filename) {
 
     string line;
     while (getline(file, line)) {
+        if (line.empty() || line[0] == '#') continue;
         istringstream iss(line);
         string id, name, phone, idCard, type, totalSpentStr;
         getline(iss, id, '|');
@@ -384,6 +385,7 @@ void BookingManager::loadBookings(const string& filename) {
 
     string line;
     while (getline(file, line)) {
+        if (line.empty() || line[0] == '#') continue;
         istringstream iss(line);
         string bookingId, customerId, roomNumber, checkInStr, checkOutStr, actualInStr, actualOutStr, statusStr;
         getline(iss, bookingId, '|');

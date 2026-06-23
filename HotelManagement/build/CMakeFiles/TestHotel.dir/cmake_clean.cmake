@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/TestHotel_autogen.dir/AutogenUsed.txt"
+  "CMakeFiles/TestHotel_autogen.dir/ParseCache.txt"
+  "TestHotel_autogen"
+  "CMakeFiles/TestHotel.dir/TestHotel_autogen/mocs_compilation.cpp.o"
+  "CMakeFiles/TestHotel.dir/TestHotel_autogen/mocs_compilation.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/Booking.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/Booking.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/BookingException.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/BookingException.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/BookingManager.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/BookingManager.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/Customer.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/Customer.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/Date.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/Date.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/DeluxeRoom.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/DeluxeRoom.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/Room.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/Room.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/RoomManager.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/RoomManager.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/StandardRoom.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/StandardRoom.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/SuiteRoom.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/SuiteRoom.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/VIPCustomer.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/VIPCustomer.cpp.o.d"
+  "CMakeFiles/TestHotel.dir/src/test_main.cpp.o"
+  "CMakeFiles/TestHotel.dir/src/test_main.cpp.o.d"
+  "TestHotel"
+  "TestHotel.pdb"
+  "TestHotel_autogen/mocs_compilation.cpp"
+  "TestHotel_autogen/timestamp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/TestHotel.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

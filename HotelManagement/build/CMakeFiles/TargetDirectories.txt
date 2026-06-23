@@ -1,0 +1,8 @@
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/HotelManagement.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/TestHotel.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/edit_cache.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/rebuild_cache.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/HotelManagement_autogen_timestamp_deps.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/HotelManagement_autogen.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/TestHotel_autogen_timestamp_deps.dir
+/Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/build/CMakeFiles/TestHotel_autogen.dir

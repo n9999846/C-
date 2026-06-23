@@ -56,6 +56,9 @@ public:
 
     bool payBill(const string& billId);
     vector<Bill> getUnpaidBills() const;
+    vector<Bill> getAllBills() const;
+
+    vector<Booking> getAllBookings() const;
 
     string getSystemStatusReport() const;
     map<string, double> getRevenueStats() const;

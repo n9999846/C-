@@ -12,6 +12,7 @@ class Customer;
 using namespace std;
 
 class Bill {
+    friend class BillingManager;
 private:
     string billId;
     string bookingId;
