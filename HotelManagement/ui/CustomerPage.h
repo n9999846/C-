@@ -17,6 +17,8 @@ private slots:
     void onAddCustomer();
     void onAddVIP();
     void onUpgradeVIP();
+    void onEditCustomer();
+    void onDeleteCustomer();
 
 private:
     void setupTable();

@@ -48,6 +48,10 @@ void Customer::setPhone(const string& newPhone) {
     phone = newPhone;
 }
 
+void Customer::setIdCard(const string& newIdCard) {
+    idCard = newIdCard;
+}
+
 void Customer::addSpent(int amount) {
     totalSpent += amount;
 }

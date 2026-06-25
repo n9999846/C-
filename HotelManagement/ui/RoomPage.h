@@ -17,6 +17,7 @@ private slots:
     void onAddStandard();
     void onAddDeluxe();
     void onAddSuite();
+    void onEditRoom();
     void onDeleteRoom();
 
 private:

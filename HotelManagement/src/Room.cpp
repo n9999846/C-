@@ -67,6 +67,10 @@ void Room::checkOut() {
     }
 }
 
+void Room::setFloor(int f) {
+    floor = f;
+}
+
 void Room::setMaintenance() {
     if (status != Status::BOOKED && status != Status::OCCUPIED) {
         status = Status::MAINTENANCE;

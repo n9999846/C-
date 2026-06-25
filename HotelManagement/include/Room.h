@@ -37,6 +37,7 @@ public:
 
     void setStatus(Status s);
     void setPrice(double price);
+    void setFloor(int f);
 
     void book();
     void checkIn();

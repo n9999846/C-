@@ -20,6 +20,8 @@ private:
     bool initialized;
     string dataPath;
 
+    void saveAllData();
+
 public:
     SystemIntegrator();
     ~SystemIntegrator();
@@ -36,6 +38,7 @@ public:
                       bool balcony, bool bathtub, bool breakfast,
                       double livingArea, bool meetingRoom, bool kitchen);
     bool deleteRoom(const string& roomNumber);
+    bool updateRoom(const string& roomNumber, int floor, double price);
     vector<Room*> getAvailableRooms() const;
     vector<Room*> getAllRooms() const;
 
@@ -45,6 +48,9 @@ public:
                              const string& phone, const string& idCard,
                              int level, const string& memberSince);
     bool upgradeToVIP(const string& customerId, int level);
+    bool updateCustomer(const string& customerId, const string& name,
+                        const string& phone, const string& idCard);
+    bool deleteCustomer(const string& customerId);
     vector<Customer*> getAllCustomers() const;
 
     string createBooking(const string& customerId, const string& roomNumber,

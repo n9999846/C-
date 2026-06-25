@@ -77,6 +77,16 @@ bool SystemIntegrator::isInitialized() const {
     return initialized;
 }
 
+// ========== 数据持久化 ==========
+
+void SystemIntegrator::saveAllData() {
+    if (!initialized) return;
+    if (roomMgr)    roomMgr->saveRooms(dataPath + "rooms.txt");
+    if (bookingMgr) bookingMgr->saveCustomers(dataPath + "customers.txt");
+    if (bookingMgr) bookingMgr->saveBookings(dataPath + "bookings.txt");
+    if (billingMgr) billingMgr->saveBills(dataPath + "bills.txt");
+}
+
 // ========== 房间管理接口 ==========
 
 bool SystemIntegrator::addStandardRoom(const string& number, int floor, double price,
@@ -92,6 +102,7 @@ bool SystemIntegrator::addStandardRoom(const string& number, int floor, double p
     }
     roomMgr->addRoom(new StandardRoom(number, floor, price, beds, window, wifi));
     logger->info("添加标准间: " + number);
+    saveAllData();
     return true;
 }
 
@@ -108,6 +119,7 @@ bool SystemIntegrator::addDeluxeRoom(const string& number, int floor, double pri
     }
     roomMgr->addRoom(new DeluxeRoom(number, floor, price, balcony, bathtub, breakfast));
     logger->info("添加豪华间: " + number);
+    saveAllData();
     return true;
 }
 
@@ -126,6 +138,7 @@ bool SystemIntegrator::addSuiteRoom(const string& number, int floor, double pric
     roomMgr->addRoom(new SuiteRoom(number, floor, price, balcony, bathtub, breakfast,
                                    livingArea, meetingRoom, kitchen));
     logger->info("添加套房: " + number);
+    saveAllData();
     return true;
 }
 
@@ -134,10 +147,25 @@ bool SystemIntegrator::deleteRoom(const string& roomNumber) {
     bool ok = roomMgr->removeRoom(roomNumber);
     if (ok) {
         logger->info("删除房间: " + roomNumber);
+        saveAllData();
     } else {
         logger->error("删除房间失败，房间不存在: " + roomNumber);
     }
     return ok;
+}
+
+bool SystemIntegrator::updateRoom(const string& roomNumber, int floor, double price) {
+    if (!initialized) return false;
+    Room* room = roomMgr->findRoom(roomNumber);
+    if (!room) {
+        logger->error("修改房间失败，房间不存在: " + roomNumber);
+        return false;
+    }
+    room->setFloor(floor);
+    room->setPrice(price);
+    logger->info("修改房间信息: " + roomNumber);
+    saveAllData();
+    return true;
 }
 
 vector<Room*> SystemIntegrator::getAvailableRooms() const {
@@ -164,6 +192,7 @@ bool SystemIntegrator::registerCustomer(const string& id, const string& name,
     }
     bookingMgr->addCustomer(new Customer(id, name, phone, idCard));
     logger->info("注册客户: " + name + " (" + id + ")");
+    saveAllData();
     return true;
 }
 
@@ -180,6 +209,7 @@ bool SystemIntegrator::registerVIPCustomer(const string& id, const string& name,
     }
     bookingMgr->addCustomer(new VIPCustomer(id, name, phone, idCard, level, memberSince));
     logger->info("注册VIP客户: " + name + " (" + id + ")");
+    saveAllData();
     return true;
 }
 
@@ -189,6 +219,7 @@ bool SystemIntegrator::upgradeToVIP(const string& customerId, int level) {
     bool ok = bookingMgr->upgradeCustomerToVIP(customerId, level, today);
     if (ok) {
         logger->info("客户升级为VIP: " + customerId + " 等级=" + to_string(level));
+        saveAllData();
     } else {
         logger->error("升级VIP失败，客户不存在: " + customerId);
     }
@@ -200,6 +231,43 @@ vector<Customer*> SystemIntegrator::getAllCustomers() const {
     return bookingMgr->getAllCustomers();
 }
 
+bool SystemIntegrator::updateCustomer(const string& customerId, const string& name,
+                                      const string& phone, const string& idCard) {
+    if (!initialized) return false;
+    Customer* customer = bookingMgr->findCustomer(customerId);
+    if (!customer) {
+        logger->error("修改客户失败，客户不存在: " + customerId);
+        return false;
+    }
+    if (!Validator::isValidName(name)) { logger->error("无效的客户姓名: " + name); return false; }
+    if (!Validator::isValidPhone(phone)) { logger->error("无效的手机号: " + phone); return false; }
+    customer->setName(name);
+    customer->setPhone(phone);
+    customer->setIdCard(idCard);
+    logger->info("修改客户信息: " + customerId);
+    saveAllData();
+    return true;
+}
+
+bool SystemIntegrator::deleteCustomer(const string& customerId) {
+    if (!initialized) return false;
+    Customer* customer = bookingMgr->findCustomer(customerId);
+    if (!customer) {
+        logger->error("删除客户失败，客户不存在: " + customerId);
+        return false;
+    }
+    // 检查是否有活跃预订
+    int active = bookingMgr->countActiveBookings(customerId);
+    if (active > 0) {
+        logger->error("删除客户失败，该客户有 " + to_string(active) + " 个活跃预订");
+        return false;
+    }
+    bookingMgr->removeCustomer(customerId);
+    logger->info("删除客户: " + customerId);
+    saveAllData();
+    return true;
+}
+
 // ========== 预订/入住/退房接口 ==========
 
 string SystemIntegrator::createBooking(const string& customerId, const string& roomNumber,
@@ -208,6 +276,7 @@ string SystemIntegrator::createBooking(const string& customerId, const string& r
     try {
         Booking booking = bookingMgr->createBooking(customerId, roomNumber, checkIn, checkOut);
         logger->info("创建预订: " + booking.getBookingId() + " 客户=" + customerId + " 房间=" + roomNumber);
+        saveAllData();
         return booking.getBookingId();
     } catch (const BookingException& e) {
         logger->error("创建预订失败: " + string(e.what()));
@@ -220,6 +289,7 @@ bool SystemIntegrator::cancelBooking(const string& bookingId) {
     try {
         bool ok = bookingMgr->cancelBooking(bookingId);
         if (ok) logger->info("取消预订: " + bookingId);
+        if (ok) saveAllData();
         return ok;
     } catch (const BookingException& e) {
         logger->error("取消预订失败: " + string(e.what()));
@@ -232,6 +302,7 @@ bool SystemIntegrator::checkIn(const string& bookingId, const Date& today) {
     try {
         Booking b = bookingMgr->checkIn(bookingId, today);
         logger->info("入住成功: " + bookingId + " 房间=" + b.getRoomNumber());
+        saveAllData();
         return true;
     } catch (const BookingException& e) {
         logger->error("入住失败: " + string(e.what()));
@@ -260,6 +331,7 @@ Bill SystemIntegrator::checkOut(const string& bookingId, const Date& today) {
         Bill bill = billingMgr->generateBill(booking, *room, *customer);
         logger->info("退房成功: " + bookingId + " 生成账单=" + bill.getBillId()
                      + " 总额=" + to_string(bill.getTotalAmount()));
+        saveAllData();
         return bill;
     } catch (const BookingException& e) {
         logger->error("退房失败: " + string(e.what()));
@@ -272,6 +344,7 @@ bool SystemIntegrator::extendStay(const string& bookingId, const Date& newCheckO
     try {
         bookingMgr->extendStay(bookingId, newCheckOut);
         logger->info("续住成功: " + bookingId);
+        saveAllData();
         return true;
     } catch (const BookingException& e) {
         logger->error("续住失败: " + string(e.what()));
@@ -286,6 +359,7 @@ bool SystemIntegrator::payBill(const string& billId) {
     bool ok = billingMgr->processPayment(billId);
     if (ok) {
         logger->info("支付成功: " + billId);
+        saveAllData();
     } else {
         logger->error("支付失败，账单不存在或已支付: " + billId);
     }

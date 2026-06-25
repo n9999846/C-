@@ -1,4 +1,6 @@
 #include "RoomPage.h"
+#include "DeluxeRoom.h"
+#include "SuiteRoom.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QHeaderView>
@@ -28,22 +30,27 @@ RoomPage::RoomPage(SystemIntegrator* sys, QWidget* parent)
     QPushButton* addDlxBtn = new QPushButton("+ 豪华间");
     QPushButton* addSteBtn = new QPushButton("+ 套房");
     QPushButton* delBtn = new QPushButton("删除房间");
+    QPushButton* editBtn = new QPushButton("编辑");
     QPushButton* refBtn = new QPushButton("刷新");
 
     QString btnStyle = "QPushButton { background-color: #3498db; color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 12px; }"
                        "QPushButton:hover { background-color: #2980b9; }";
     QString delStyle = "QPushButton { background-color: #e74c3c; color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 12px; }"
                        "QPushButton:hover { background-color: #c0392b; }";
+    QString editStyle = "QPushButton { background-color: #27ae60; color: white; border: none; border-radius: 4px; padding: 6px 14px; font-size: 12px; }"
+                        "QPushButton:hover { background-color: #219a52; }";
 
     addStdBtn->setStyleSheet(btnStyle);
     addDlxBtn->setStyleSheet(btnStyle);
     addSteBtn->setStyleSheet(btnStyle);
     refBtn->setStyleSheet(btnStyle);
+    editBtn->setStyleSheet(editStyle);
     delBtn->setStyleSheet(delStyle);
 
     topLayout->addWidget(addStdBtn);
     topLayout->addWidget(addDlxBtn);
     topLayout->addWidget(addSteBtn);
+    topLayout->addWidget(editBtn);
     topLayout->addWidget(delBtn);
     topLayout->addWidget(refBtn);
     mainLayout->addLayout(topLayout);
@@ -56,6 +63,7 @@ RoomPage::RoomPage(SystemIntegrator* sys, QWidget* parent)
     connect(addStdBtn, &QPushButton::clicked, this, &RoomPage::onAddStandard);
     connect(addDlxBtn, &QPushButton::clicked, this, &RoomPage::onAddDeluxe);
     connect(addSteBtn, &QPushButton::clicked, this, &RoomPage::onAddSuite);
+    connect(editBtn, &QPushButton::clicked, this, &RoomPage::onEditRoom);
     connect(delBtn, &QPushButton::clicked, this, &RoomPage::onDeleteRoom);
     connect(refBtn, &QPushButton::clicked, this, &RoomPage::refresh);
 
@@ -84,7 +92,7 @@ void RoomPage::refresh() {
         Room* r = rooms[i];
         table->setItem(i, 0, new QTableWidgetItem(QString::fromStdString(r->getRoomNumber())));
         table->setItem(i, 1, new QTableWidgetItem(QString::number(r->getFloor())));
-        table->setItem(i, 2, new QTableWidgetItem(QString("¥%1").arg(r->getActualPrice(), 0, 'f', 2)));
+        table->setItem(i, 2, new QTableWidgetItem(QString("¥%1").arg(r->getPricePerNight(), 0, 'f', 2)));
         table->setItem(i, 3, new QTableWidgetItem(QString::fromStdString(r->getStatusString())));
         table->setItem(i, 4, new QTableWidgetItem(QString::fromStdString(r->getRoomType())));
         table->setItem(i, 5, new QTableWidgetItem(QString::fromStdString(r->getDescription())));
@@ -222,6 +230,76 @@ void RoomPage::onAddSuite() {
                                     areaSpin.value(), meetCheck.isChecked(), kitCheck.isChecked());
         if (ok) { QMessageBox::information(this, "成功", "套房添加成功！"); refresh(); }
         else { QMessageBox::warning(this, "失败", "添加失败"); }
+    }
+}
+
+void RoomPage::onEditRoom() {
+    int row = table->currentRow();
+    if (row < 0) {
+        QMessageBox::information(this, "提示", "请先选择要编辑的房间");
+        return;
+    }
+    string roomNum = table->item(row, 0)->text().toStdString();
+    Room* room = nullptr;
+    for (Room* r : sys->getAllRooms()) {
+        if (r->getRoomNumber() == roomNum) { room = r; break; }
+    }
+    if (!room) return;
+
+    QDialog dialog(this);
+    dialog.setWindowTitle(QString("编辑房间 %1").arg(QString::fromStdString(roomNum)));
+    dialog.setMinimumWidth(350);
+    QFormLayout form(&dialog);
+
+    QLabel numLabel(QString::fromStdString(roomNum));
+    QLabel typeLabel(QString::fromStdString(room->getRoomType()));
+    QSpinBox floorSpin;
+    floorSpin.setRange(1, 99);
+    floorSpin.setValue(room->getFloor());
+    QDoubleSpinBox priceSpin;
+    priceSpin.setRange(0, 99999);
+    priceSpin.setDecimals(2);
+    priceSpin.setValue(room->getPricePerNight());
+
+    form.addRow("房间号:", &numLabel);
+    form.addRow("类  型:", &typeLabel);
+    form.addRow("楼  层:", &floorSpin);
+    form.addRow("基础价格:", &priceSpin);
+
+    // 显示实际售价（含附加费）的提示标签
+    QLabel actualPriceLabel;
+    auto updateActualPrice = [&]() {
+        Room* tmpRoom = room;
+        // 临时设置价格计算实际售价
+        double base = priceSpin.value();
+        double actual = base;
+        if (DeluxeRoom* dr = dynamic_cast<DeluxeRoom*>(tmpRoom)) {
+            if (dr->getHasBreakfast()) actual += 50.0;
+            if (SuiteRoom* sr = dynamic_cast<SuiteRoom*>(tmpRoom)) {
+                actual *= 1.8;
+            }
+        }
+        actualPriceLabel.setText(QString("实际售价: ¥%1").arg(actual, 0, 'f', 2));
+        actualPriceLabel.setStyleSheet("color: #e67e22; font-size: 12px;");
+    };
+    updateActualPrice();
+    connect(&priceSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), updateActualPrice);
+    form.addRow("", &actualPriceLabel);
+
+    QPushButton* okBtn = new QPushButton("确定");
+    QPushButton* cancelBtn = new QPushButton("取消");
+    QHBoxLayout btnLayout;
+    btnLayout.addWidget(okBtn);
+    btnLayout.addWidget(cancelBtn);
+    form.addRow("", &btnLayout);
+
+    connect(okBtn, &QPushButton::clicked, &dialog, &QDialog::accept);
+    connect(cancelBtn, &QPushButton::clicked, &dialog, &QDialog::reject);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        bool ok = sys->updateRoom(roomNum, floorSpin.value(), priceSpin.value());
+        if (ok) { QMessageBox::information(this, "成功", "房间信息已更新"); refresh(); }
+        else { QMessageBox::warning(this, "失败", "修改失败"); }
     }
 }
 

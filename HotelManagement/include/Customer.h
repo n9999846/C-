@@ -32,6 +32,7 @@ public:
 
     void setName(const string& newName);
     void setPhone(const string& newPhone);
+    void setIdCard(const string& newIdCard);
     void addSpent(int amount);
 
     friend ostream& operator<<(ostream& os, const Customer& c);

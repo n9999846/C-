@@ -1,9 +1,13 @@
 #include <QApplication>
+#include <QDir>
 #include "ui/LoginDialog.h"
 #include "ui/MainWindow.h"
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
+
+    // 设置工作目录为项目根目录（data/ 所在位置）
+    QDir::setCurrent(QCoreApplication::applicationDirPath() + "/..");
 
     // 设置应用程序全局样式
     app.setStyleSheet("QToolTip { color: #333; background-color: #fff; border: 1px solid #ccc; padding: 4px; }");

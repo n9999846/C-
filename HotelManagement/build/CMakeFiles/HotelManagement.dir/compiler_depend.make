@@ -17117,6 +17117,7 @@ CMakeFiles/HotelManagement.dir/src/main_gui.cpp.o: /Users/mac/Desktop/未命名�
   /Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/include/VIPCustomer.h \
   /Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/ui/LoginDialog.h \
   /Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/ui/MainWindow.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/QDir \
   /opt/homebrew/lib/QtCore.framework/Headers/q17memory.h \
   /opt/homebrew/lib/QtCore.framework/Headers/q20bit.h \
   /opt/homebrew/lib/QtCore.framework/Headers/q20functional.h \
@@ -17143,6 +17144,7 @@ CMakeFiles/HotelManagement.dir/src/main_gui.cpp.o: /Users/mac/Desktop/未命名�
   /opt/homebrew/lib/QtCore.framework/Headers/qbytearrayalgorithms.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qbytearraylist.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qbytearrayview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcalendar.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qchar.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qcheckedint_impl.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qcompare.h \
@@ -17160,11 +17162,17 @@ CMakeFiles/HotelManagement.dir/src/main_gui.cpp.o: /Users/mac/Desktop/未命名�
   /opt/homebrew/lib/QtCore.framework/Headers/qcoreevent.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qdarwinhelpers.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qdatastream.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qdeadlinetimer.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qdebug.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdir.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdirlisting.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qendian.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qeventloop.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qexceptionhandling.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfile.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfiledevice.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfileinfo.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qflags.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qfloat16.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qforeach.h \
@@ -17239,6 +17247,7 @@ CMakeFiles/HotelManagement.dir/src/main_gui.cpp.o: /Users/mac/Desktop/未命名�
   /opt/homebrew/lib/QtCore.framework/Headers/qtenvironmentvariables.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qtextstream.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qtformat_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtimezone.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qtmetamacros.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qtnoop.h \
   /opt/homebrew/lib/QtCore.framework/Headers/qtpreprocessorsupport.h \
@@ -24970,12 +24979,6 @@ CMakeFiles/HotelManagement.dir/ui/StatsPage.cpp.o: /Users/mac/Desktop/未命名�
 
 /opt/homebrew/lib/QtWidgets.framework/Headers/QComboBox:
 
-/opt/homebrew/lib/QtCore.framework/Headers/qtimezone.h:
-
-/opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h:
-
-/opt/homebrew/lib/QtCore.framework/Headers/qcalendar.h:
-
 /opt/homebrew/lib/QtWidgets.framework/Headers/qapplication.h:
 
 /opt/homebrew/lib/QtGui.framework/Headers/qinputmethod.h:
@@ -24984,15 +24987,29 @@ CMakeFiles/HotelManagement.dir/ui/StatsPage.cpp.o: /Users/mac/Desktop/未命名�
 
 /opt/homebrew/lib/QtGui.framework/Headers/qguiapplication.h:
 
+/opt/homebrew/lib/QtCore.framework/Headers/qtimezone.h:
+
 /opt/homebrew/lib/QtCore.framework/Headers/qnativeinterface.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/qfileinfo.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/qfile.h:
 
 /opt/homebrew/lib/QtCore.framework/Headers/qeventloop.h:
 
+/opt/homebrew/lib/QtCore.framework/Headers/qdir.h:
+
 /opt/homebrew/lib/QtCore.framework/Headers/qdeadlinetimer.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/qcalendar.h:
 
 /opt/homebrew/lib/QtCore.framework/Headers/qbasictimer.h:
 
 /opt/homebrew/lib/QtCore.framework/Headers/qabstracteventdispatcher.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/QDir:
 
 /Users/mac/Desktop/未命名文件夹/c++大作业/HotelManagement/include/Validator.h:
 
@@ -27076,6 +27093,8 @@ CMakeFiles/4.3.4/CMakeCXXCompiler.cmake:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/make_const_lvalue_ref.h:
 
+/opt/homebrew/lib/QtCore.framework/Headers/qdirlisting.h:
+
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/is_polymorphic.h:
 
 /opt/homebrew/Cellar/qtbase/6.11.1/lib/QtCore.framework/Versions/A/Headers/q20utility.h:
@@ -27097,6 +27116,8 @@ CMakeFiles/4.3.4/CMakeCXXCompiler.cmake:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include/limits.h:
 
 /opt/homebrew/Cellar/qtbase/6.11.1/lib/QtCore.framework/Versions/A/Headers/qsystemdetection.h:
+
+/opt/homebrew/lib/QtCore.framework/Headers/qfiledevice.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1/cmath:
 
